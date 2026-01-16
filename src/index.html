@@ -2,21 +2,37 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>static-site-boilerplate index</title>
     <analytics></analytics>
   </head>
 
   <body class="index">
-    <div class="images">
-      <div class="image" id="bgPNG"></div>
-      <div class="image" id="bgJPG"></div>
-      <div class="image" id="bgSVG"></div>
-      <img src="images/image.png" />
-      <img src="images/image.jpg" />
-      <img src="images/image.svg" />
-    </div>
+    <h1>Наше супер приложение</h1>
+    <p>Здесь будет вовлекающий текст для миниаппа</p>
 
-    <div>This is a landing page</div>
-    <a href="./pages/page.html">Go to an internal page</a>
+    <form
+      action="http://localhost:3000/api/v1/subscriptions.json"
+      accept-charset="UTF-8"
+      method="post"
+    >
+      <div>
+        <label style="display: block" for="subscription_email">Email</label>
+        <input
+          type="email"
+          name="subscription[email]"
+          id="subscription_email"
+        />
+      </div>
+
+      <div>
+        <input
+          type="submit"
+          name="commit"
+          value="Create Subscription"
+          data-disable-with="Create Subscription"
+        />
+      </div>
+    </form>
   </body>
 </html>
