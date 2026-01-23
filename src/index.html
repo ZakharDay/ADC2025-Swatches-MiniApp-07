@@ -15,6 +15,7 @@
       action="http://localhost:3000/api/v1/subscriptions.json"
       accept-charset="UTF-8"
       method="post"
+      id="subscription_form"
     >
       <div>
         <label style="display: block" for="subscription_email">Email</label>
@@ -31,6 +32,42 @@
           name="commit"
           value="Create Subscription"
           data-disable-with="Create Subscription"
+        />
+      </div>
+    </form>
+
+    <br /><br />
+
+    <form
+      action="http://localhost:3000/api/v1/sign_in.json"
+      accept-charset="UTF-8"
+      class="hidden"
+      id="login_form"
+    >
+      <div>
+        <input
+          placeholder="Ваш емейл"
+          type="email"
+          name="user[email]"
+          id="user_email"
+        />
+      </div>
+
+      <div>
+        <input
+          placeholder="Ваш пароль"
+          type="password"
+          name="user[password]"
+          id="user_password"
+        />
+      </div>
+
+      <div>
+        <input
+          type="submit"
+          name="commit"
+          value="Войти"
+          data-disable-with="Войти"
         />
       </div>
     </form>

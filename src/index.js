@@ -1,7 +1,8 @@
 import './index.css'
+import Cookies from 'js-cookie'
 
 function initSubscriptionForm() {
-  const form = document.querySelector('form')
+  const form = document.getElementById('subscription_form')
   const input = document.querySelector('input[type=email]')
   const submit = document.querySelector('input[type=submit]')
   const url = form.action
@@ -36,6 +37,53 @@ function initSubscriptionForm() {
         container.appendChild(message)
         container.appendChild(link)
         form.replaceWith(container)
+      })
+  })
+}
+
+function authorizeUser() {
+  const jwt = Cookies.get('jwt')
+
+  if (jwt) {
+    fetch('http://localhost:3000/api/v1/authorize_by_jwt.json', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${jwt}`
+      }
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data)
+
+        const element = document.createElement('div')
+        element.innerText = `Welcome, ${data.email}`
+        document.body.appendChild(element)
+      })
+  } else {
+    initLoginForm()
+  }
+}
+
+function initLoginForm() {
+  const form = document.getElementById('login_form')
+  const url = form.action
+  form.classList.remove('hidden')
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault()
+
+    const formData = new FormData(form)
+
+    fetch(url, {
+      method: 'POST',
+      body: formData
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data)
+        console.log(data.jwt)
+
+        Cookies.set('jwt', data.jwt)
       })
   })
 }
@@ -131,6 +179,7 @@ function initSwatchPage() {
 document.addEventListener('DOMContentLoaded', () => {
   if (document.body.classList.contains('index')) {
     initSubscriptionForm()
+    authorizeUser()
   }
 
   if (document.body.classList.contains('preview')) {
