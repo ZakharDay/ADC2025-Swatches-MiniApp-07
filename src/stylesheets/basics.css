@@ -12,26 +12,66 @@ body {
   font-weight: 400;
 }
 
-.images {
-  display: flex;
+.menubar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px;
+}
 
-  * {
-    width: 24px;
-    height: 24px;
-    margin: 0 10px;
+.newSwatchForm {
+  margin: 30px 0;
+
+  .addFillButton {
+    cursor: pointer;
+    width: 202px;
+    height: 104px;
+    line-height: 104px;
+    text-align: center;
+    background-color: white;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+
+    &:hover {
+      background-color: rgb(237, 237, 237);
+    }
   }
 
-  .image {
-    &#bgPNG {
-      background-image: url('../images/image.png');
+  .swatchFillsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 950px;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: white;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+  }
+
+  .fillsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 20px;
+    width: 950px;
+    height: 600px;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: white;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    overflow-y: scroll;
+
+    .fillCard {
+      height: fit-content;
     }
 
-    &#bgJPG {
-      background-image: url('../images/image.jpg');
-    }
-
-    &#bgSVG {
-      background-image: url('../images/image.svg');
+    .preloader {
+      margin-top: 280px;
+      text-align: center;
     }
   }
 }

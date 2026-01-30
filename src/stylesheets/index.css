@@ -1,4 +1,13 @@
-body.index {
+body {
+  padding: 60px;
+  form {
+    &.hidden {
+      display: none;
+    }
+  }
+}
+
+/* body.index {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -14,4 +23,4 @@ body.index {
       display: none;
     }
   }
-}
+} */

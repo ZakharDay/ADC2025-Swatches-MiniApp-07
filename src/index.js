@@ -55,12 +55,44 @@ function authorizeUser() {
       .then((data) => {
         console.log(data)
 
-        const element = document.createElement('div')
-        element.innerText = `Welcome, ${data.email}`
-        document.body.appendChild(element)
+        if (data.is_success) {
+          const element = document.createElement('div')
+          element.innerText = `Привет, ${data.email}!`
+
+          const signOutButton = document.createElement('div')
+          signOutButton.classList.add('textButton')
+          signOutButton.innerText = 'Выйти'
+
+          document.body.appendChild(element)
+          document.body.appendChild(signOutButton)
+
+          signOutButton.addEventListener('click', () => {
+            fetch('http://localhost:3000/api/v1/sign_out.json', {
+              method: 'GET',
+              headers: {
+                Authorization: `Bearer ${jwt}`
+              }
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                console.log(data)
+
+                element.remove()
+                signOutButton.remove()
+                Cookies.remove('jwt')
+                initLoginForm()
+                initSignupForm()
+              })
+          })
+        } else {
+          Cookies.remove('jwt')
+          initLoginForm()
+          initSignupForm()
+        }
       })
   } else {
     initLoginForm()
+    initSignupForm()
   }
 }
 
@@ -84,12 +116,38 @@ function initLoginForm() {
         console.log(data.jwt)
 
         Cookies.set('jwt', data.jwt)
+        window.location.reload()
+      })
+  })
+}
+
+function initSignupForm() {
+  const form = document.getElementById('signup_form')
+  const url = form.action
+  form.classList.remove('hidden')
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault()
+
+    const formData = new FormData(form)
+
+    fetch(url, {
+      method: 'POST',
+      body: formData
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data)
+        console.log(data.jwt)
+
+        Cookies.set('jwt', data.jwt)
+        window.location.reload()
       })
   })
 }
 
 function initPreviewPage() {
-  const container = document.querySelector('.swatches')
+  const container = document.querySelector('.swatchesSection')
   const url = container.dataset.url
 
   fetch(url)
@@ -114,33 +172,37 @@ function createSwatchPreview(swatchData, container) {
   link.href = `${container.dataset.swatchUri}?swatch=${swatchData.id}`
 
   swatchData.fills.forEach((fillData) => {
-    const fill = document.createElement('div')
-    const color = document.createElement('div')
-    const info = document.createElement('div')
-    const hex = document.createElement('div')
-    const name = document.createElement('div')
-
-    fill.classList.add('fillCard')
-    color.classList.add('fillColor')
-    info.classList.add('fillCardInfo')
-    name.classList.add('fillName')
-
-    hex.innerText = `Colors: ${fillData.colors.length}`
-    name.innerText = `Variable: ${fillData.name}`
-
-    setCssBackgroundValue(color, fillData)
-
-    fill.appendChild(color)
-    fill.appendChild(info)
-    info.appendChild(hex)
-    info.appendChild(name)
-    fills.appendChild(fill)
+    createFillCard(fillData, fills)
   })
 
   h2.appendChild(link)
   swatch.appendChild(h2)
   swatch.appendChild(fills)
   container.appendChild(swatch)
+}
+
+function createFillCard(fillData, container) {
+  const fill = document.createElement('div')
+  const color = document.createElement('div')
+  const info = document.createElement('div')
+  const hex = document.createElement('div')
+  const name = document.createElement('div')
+
+  fill.classList.add('fillCard')
+  color.classList.add('fillColor')
+  info.classList.add('fillCardInfo')
+  name.classList.add('fillName')
+
+  hex.innerText = `Colors: ${fillData.colors.length}`
+  name.innerText = `Variable: ${fillData.name}`
+
+  setCssBackgroundValue(color, fillData)
+
+  fill.appendChild(color)
+  fill.appendChild(info)
+  info.appendChild(hex)
+  info.appendChild(name)
+  container.appendChild(fill)
 }
 
 function setCssBackgroundValue(element, fill) {
@@ -150,7 +212,7 @@ function setCssBackgroundValue(element, fill) {
     const colors = []
 
     fill.colors.forEach((color) => {
-      colors.push(`#${color.color} ${color.stop}%`)
+      colors.push(`#${color.rgb_hash} ${color.stop}%`)
     })
 
     const cssColors = colors.join(', ')
@@ -158,7 +220,7 @@ function setCssBackgroundValue(element, fill) {
 
     element.style.backgroundImage = cssColor
   } else if (fill.colors.length == 1) {
-    cssColor = '#' + fill.colors[0].color
+    cssColor = '#' + fill.colors[0].rgb_hash
     element.style.backgroundColor = cssColor
   }
 }
@@ -176,14 +238,84 @@ function initSwatchPage() {
     })
 }
 
+function initNewSwatchFrom() {
+  const container = document.querySelector('.newSwatchForm')
+  const getFillsUrl = container.dataset.url
+  const jwt = Cookies.get('jwt')
+
+  const addFillButton = document.createElement('div')
+  addFillButton.innerText = 'Добавить заливку'
+  addFillButton.classList.add('addFillButton')
+  container.appendChild(addFillButton)
+
+  let fillsContainerVisible = false
+
+  addFillButton.addEventListener('click', () => {
+    if (!fillsContainerVisible) {
+      const swatchFillsContainer = document.createElement('div')
+      swatchFillsContainer.classList.add('swatchFillsContainer')
+
+      const fillsContainer = document.createElement('div')
+      fillsContainer.classList.add('fillsContainer')
+
+      const preloader = document.createElement('div')
+      preloader.classList.add('preloader')
+      preloader.innerText = 'Заливки загружаются...'
+
+      fillsContainer.appendChild(preloader)
+      container.appendChild(swatchFillsContainer)
+      container.appendChild(fillsContainer)
+
+      fillsContainerVisible = true
+
+      fetch(getFillsUrl, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${jwt}`
+        }
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data)
+          data.forEach((fillData) => {
+            preloader.remove()
+            createFillCard(fillData, fillsContainer)
+
+            const fillCards = document.querySelectorAll('.fillCard')
+
+            fillCards.forEach((fillCard) => {
+              fillCard.addEventListener('click', () => {
+                swatchFillsContainer.appendChild(fillCard)
+              })
+            })
+          })
+        })
+    }
+  })
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  if (document.body.classList.contains('index')) {
+  if (
+    document.body.classList.contains('home') &&
+    document.body.classList.contains('index')
+  ) {
     initSubscriptionForm()
     authorizeUser()
   }
 
-  if (document.body.classList.contains('preview')) {
+  if (
+    document.body.classList.contains('swatches') &&
+    document.body.classList.contains('index')
+  ) {
     initPreviewPage()
+  }
+
+  if (
+    document.body.classList.contains('swatches') &&
+    document.body.classList.contains('new')
+  ) {
+    authorizeUser()
+    initNewSwatchFrom()
   }
 
   if (document.body.classList.contains('swatch')) {
