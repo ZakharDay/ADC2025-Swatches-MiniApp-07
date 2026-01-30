@@ -1,6 +1,8 @@
 import './index.css'
 import Cookies from 'js-cookie'
 
+// Cookies.remove('jwt')
+
 function initSubscriptionForm() {
   const form = document.getElementById('subscription_form')
   const input = document.querySelector('input[type=email]')
@@ -181,7 +183,7 @@ function createSwatchPreview(swatchData, container) {
   container.appendChild(swatch)
 }
 
-function createFillCard(fillData, container) {
+function createFillCard(data, container) {
   const fill = document.createElement('div')
   const color = document.createElement('div')
   const info = document.createElement('div')
@@ -193,10 +195,11 @@ function createFillCard(fillData, container) {
   info.classList.add('fillCardInfo')
   name.classList.add('fillName')
 
-  hex.innerText = `Colors: ${fillData.colors.length}`
-  name.innerText = `Variable: ${fillData.name}`
+  fill.dataset.id = data.id
+  hex.innerText = `Colors: ${data.fill_colors.length}`
+  name.innerText = `Variable: ${data.name}`
 
-  setCssBackgroundValue(color, fillData)
+  setCssBackgroundValue(color, data)
 
   fill.appendChild(color)
   fill.appendChild(info)
@@ -208,19 +211,19 @@ function createFillCard(fillData, container) {
 function setCssBackgroundValue(element, fill) {
   let cssColor
 
-  if (fill.colors.length > 1) {
+  if (fill.fill_colors.length > 1) {
     const colors = []
 
-    fill.colors.forEach((color) => {
-      colors.push(`#${color.rgb_hash} ${color.stop}%`)
+    fill.fill_colors.forEach((fill_color) => {
+      colors.push(`#${fill_color.rgb_hash} ${fill_color.stop}%`)
     })
 
     const cssColors = colors.join(', ')
     cssColor = 'linear-gradient(90deg, ' + cssColors + ')'
 
     element.style.backgroundImage = cssColor
-  } else if (fill.colors.length == 1) {
-    cssColor = '#' + fill.colors[0].rgb_hash
+  } else if (fill.fill_colors.length == 1) {
+    cssColor = '#' + fill.fill_colors[0].rgb_hash
     element.style.backgroundColor = cssColor
   }
 }
@@ -240,7 +243,8 @@ function initSwatchPage() {
 
 function initNewSwatchFrom() {
   const container = document.querySelector('.newSwatchForm')
-  const getFillsUrl = container.dataset.url
+  const getFillsUrl = container.dataset.getFillsUrl
+  const createSwatchUrl = container.dataset.createSwatchUrl
   const jwt = Cookies.get('jwt')
 
   const addFillButton = document.createElement('div')
@@ -252,6 +256,10 @@ function initNewSwatchFrom() {
 
   addFillButton.addEventListener('click', () => {
     if (!fillsContainerVisible) {
+      const headingInput = document.createElement('input')
+      headingInput.placeholder = 'Придумайте название'
+      headingInput.classList.add('headingInput')
+
       const swatchFillsContainer = document.createElement('div')
       swatchFillsContainer.classList.add('swatchFillsContainer')
 
@@ -262,9 +270,16 @@ function initNewSwatchFrom() {
       preloader.classList.add('preloader')
       preloader.innerText = 'Заливки загружаются...'
 
+      const submitButton = document.createElement('div')
+      submitButton.classList.add('submitButton')
+      submitButton.classList.add('disabled')
+      submitButton.innerText = 'Создать палитру'
+
+      container.appendChild(headingInput)
       fillsContainer.appendChild(preloader)
       container.appendChild(swatchFillsContainer)
       container.appendChild(fillsContainer)
+      container.appendChild(submitButton)
 
       fillsContainerVisible = true
 
@@ -277,6 +292,7 @@ function initNewSwatchFrom() {
         .then((response) => response.json())
         .then((data) => {
           console.log(data)
+
           data.forEach((fillData) => {
             preloader.remove()
             createFillCard(fillData, fillsContainer)
@@ -288,6 +304,40 @@ function initNewSwatchFrom() {
                 swatchFillsContainer.appendChild(fillCard)
               })
             })
+          })
+
+          submitButton.classList.remove('disabled')
+
+          submitButton.addEventListener('click', () => {
+            const fillCards = swatchFillsContainer.querySelectorAll('.fillCard')
+            const fillIds = []
+
+            fillCards.forEach((card) => {
+              fillIds.push(card.dataset.id)
+            })
+
+            const params = {
+              swatch: {
+                name: headingInput.value,
+                fill_ids: fillIds
+              }
+            }
+
+            fetch(createSwatchUrl, {
+              method: 'POST',
+              headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                Authorization: `Bearer ${jwt}`
+              },
+              body: JSON.stringify(params)
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                console.log(data)
+
+                const redirectUrl = `http://localhost:8080/swatches/show.html?swatch=${data.swatch_id}`
+                window.location.href = redirectUrl
+              })
           })
         })
     }
@@ -318,7 +368,10 @@ document.addEventListener('DOMContentLoaded', () => {
     initNewSwatchFrom()
   }
 
-  if (document.body.classList.contains('swatch')) {
+  if (
+    document.body.classList.contains('swatches') &&
+    document.body.classList.contains('show')
+  ) {
     initSwatchPage()
   }
 })
