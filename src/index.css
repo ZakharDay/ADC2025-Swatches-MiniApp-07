@@ -4,3 +4,5 @@
 @import 'stylesheets/basics.css';
 @import 'stylesheets/home.css';
 @import 'stylesheets/swatches.css';
+
+@import 'stylesheets/components/A_FillCard.css';

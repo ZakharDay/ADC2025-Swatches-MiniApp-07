@@ -1,0 +1,24 @@
+.A_FillCard {
+  display: flex;
+  flex-direction: column;
+  width: 202px;
+  height: fit-content;
+  background-color: white;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  text-decoration: none;
+
+  .fillColor {
+    width: 200px;
+    height: 50px;
+  }
+
+  .fillInfo {
+    background-color: white;
+    padding: 10px;
+  }
+
+  .fillName {
+    color: grey;
+  }
+}

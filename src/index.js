@@ -190,9 +190,9 @@ function createFillCard(data, container) {
   const hex = document.createElement('div')
   const name = document.createElement('div')
 
-  fill.classList.add('fillCard')
+  fill.classList.add('A_FillCard')
   color.classList.add('fillColor')
-  info.classList.add('fillCardInfo')
+  info.classList.add('fillInfo')
   name.classList.add('fillName')
 
   fill.dataset.id = data.id
@@ -365,7 +365,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.contains('new')
   ) {
     authorizeUser()
-    initNewSwatchFrom()
+    // initNewSwatchFrom()
   }
 
   if (

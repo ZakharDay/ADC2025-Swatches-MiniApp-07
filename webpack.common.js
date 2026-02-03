@@ -8,7 +8,8 @@ const path = require('path')
 
 module.exports = {
   entry: {
-    index: './src/index.js'
+    index: './src/index.js',
+    swatch_form: './src/javascript/swatch_form.jsx'
   },
   output: {
     filename: '[name].js',
@@ -85,7 +86,7 @@ module.exports = {
       scriptLoading: 'blocking',
       template: './src/swatches/new.html',
       filename: './swatches/new.html',
-      chunks: ['index']
+      chunks: ['index', 'swatch_form']
     }),
 
     // Partials
