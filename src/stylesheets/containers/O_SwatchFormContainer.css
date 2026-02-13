@@ -1,0 +1,64 @@
+.O_SwatchFormContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 990px;
+  /* max-height: 600px; */
+  padding: 20px;
+  margin-top: 20px;
+  background-color: white;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  /* overflow-y: scroll; */
+
+  .W_FillCardsContainer {
+    .W_FillCardsDefault {
+      position: relative;
+      margin-top: -21px;
+    }
+
+    .W_FillCards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-items: flex-start;
+      align-content: flex-start;
+      gap: 20px;
+      width: 950px;
+      min-width: 950px;
+      max-height: 600px;
+      padding: 20px;
+      margin-top: 20px;
+      background-color: white;
+      border: 1px solid lightgrey;
+      border-radius: 5px;
+      overflow-y: scroll;
+
+      &.default {
+        position: absolute;
+        z-index: 1;
+        max-height: 340px;
+      }
+
+      &.fillCardsVisible {
+        &.chosen {
+          border-radius: 5px 5px 0 0;
+        }
+
+        &.default {
+          border-radius: 0 0 5px 5px;
+        }
+      }
+
+      .A_FillCard {
+        cursor: pointer;
+      }
+
+      .preloader {
+        width: 100%;
+        margin-top: 280px;
+        text-align: center;
+      }
+    }
+  }
+}

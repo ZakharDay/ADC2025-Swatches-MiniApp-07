@@ -1,0 +1,9 @@
+.M_TitleWithDescriptor {
+  text-align: center;
+
+  .A_Text {
+    &.display-paragraph {
+      margin-top: 10px;
+    }
+  }
+}

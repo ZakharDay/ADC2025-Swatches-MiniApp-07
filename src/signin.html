@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>static-site-boilerplate index</title>
+    <analytics></analytics>
+  </head>
+
+  <body class="home signin">
+    <div class="W_FlexGroup">
+      <form
+        action="http://localhost:3000/api/v1/sign_in.json"
+        accept-charset="UTF-8"
+        class="O_SubscriptionForm"
+        id="login_form"
+      >
+        <input
+          placeholder="Ваш емейл"
+          type="email"
+          name="user[email]"
+          id="user_email"
+          class="A_Input"
+        />
+
+        <input
+          placeholder="Ваш пароль"
+          type="password"
+          name="user[password]"
+          id="user_password"
+          class="A_Input"
+        />
+
+        <input
+          type="submit"
+          name="commit"
+          value="Войти"
+          data-disable-with="Войти"
+          class="A_Button"
+        />
+      </form>
+
+      <!-- <br /><br />
+
+        <form
+          action="http://localhost:3000/api/v1/sign_up.json"
+          accept-charset="UTF-8"
+          class="O_SubscriptionForm hidden"
+          id="signup_form"
+        >
+          <div>
+            <input
+              placeholder="Ваш емейл"
+              type="email"
+              name="user[email]"
+              id="user_email"
+              class="A_Input"
+            />
+          </div>
+
+          <div>
+            <input
+              placeholder="Придумайте пароль"
+              type="password"
+              name="user[password]"
+              id="user_password"
+              class="A_Input"
+            />
+          </div>
+
+          <div>
+            <input
+              placeholder="Повтор пароля"
+              type="password"
+              name="user[password_confirmation]"
+              id="user_password_confirmation"
+              class="A_Input"
+            />
+          </div>
+
+          <div>
+            <input
+              type="submit"
+              name="commit"
+              value="Зарегистрироваться"
+              data-disable-with="Зарегистрироваться"
+              class="A_Button"
+            />
+          </div>
+        </form> -->
+    </div>
+
+    <a class="A_Button tertiary" href="index.html">Вернуться назад</a>
+  </body>
+</html>

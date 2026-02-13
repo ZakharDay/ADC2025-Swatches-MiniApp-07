@@ -11,11 +11,14 @@ const showSwatchUrl = container.dataset.showSwatchUrl
 const jwt = Cookies.get('jwt')
 const root = createRoot(container)
 
+const selectMenuClasses = ['W_FillCardsDefault']
+
 root.render(
   <O_SwatchFormContainer
     getFillsUrl={getFillsUrl}
     createSwatchUrl={createSwatchUrl}
     showSwatchUrl={showSwatchUrl}
     jwt={jwt}
+    selectMenuClasses={selectMenuClasses}
   />
 )

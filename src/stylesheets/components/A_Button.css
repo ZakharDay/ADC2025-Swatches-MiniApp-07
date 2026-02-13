@@ -1,0 +1,42 @@
+.A_Button {
+  cursor: pointer;
+  width: fit-content;
+  padding: 0 10px;
+  background-color: rgb(35, 141, 255);
+  color: white;
+  border: none;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 40px;
+  outline: inherit;
+  border-radius: 5px;
+
+  &.tertiary {
+    text-decoration: none;
+    color: rgb(35, 141, 255);
+    background: none;
+    line-height: initial;
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    background-color: rgb(103, 109, 116);
+  }
+
+  &.addFillButton {
+    width: 202px;
+    height: 104px;
+    margin: 0;
+    padding: 0;
+    line-height: 104px;
+    text-align: center;
+    background-color: white;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    color: black;
+
+    &:hover {
+      background-color: rgb(237, 237, 237);
+    }
+  }
+}

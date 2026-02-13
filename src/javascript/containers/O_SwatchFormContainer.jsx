@@ -1,9 +1,13 @@
+import { intersection } from 'lodash'
+import classnames from 'classnames'
 import React, { PureComponent } from 'react'
 import ReactDOM from 'react-dom'
 
+import getParentClasses from '../utilities.js'
+
 import A_Button from '../components/A_Button.jsx'
 import A_Input from '../components/A_Input.jsx'
-import M_FillCards from '../components/M_FillCards.jsx'
+import A_FillCard from '../components/A_FillCard.jsx'
 
 export default class O_SwatchFormContainer extends PureComponent {
   constructor(props) {
@@ -11,13 +15,42 @@ export default class O_SwatchFormContainer extends PureComponent {
 
     this.state = {
       heading: '',
+      fillCardsVisible: false,
       fillCards: [],
       fillCardsChosen: []
     }
   }
 
   componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside)
+  }
+
+  handleClickOutside = (e) => {
+    const elementParentClasses = getParentClasses(e.target)
+    const { selectMenuClasses } = this.props
+
+    const targetedClasses = intersection(
+      elementParentClasses,
+      selectMenuClasses
+    )
+
+    if (targetedClasses.length == 0) {
+      this.setState({
+        fillCardsVisible: false
+      })
+    }
+  }
+
+  handleNewFillButtonClick = () => {
     const { getFillsUrl, jwt } = this.props
+
+    this.setState({
+      fillCardsVisible: true
+    })
 
     fetch(getFillsUrl, {
       method: 'GET',
@@ -37,38 +70,23 @@ export default class O_SwatchFormContainer extends PureComponent {
 
   handleFillCardClick = (id) => {
     const { fillCards, fillCardsChosen } = this.state
-    const updatedFillCards = []
-    const updatedFillCardsChosen = [...fillCardsChosen]
+    const updatedFillCardsChosen = []
+
+    fillCardsChosen.forEach((fillCard) => {
+      if (fillCard.id != id) {
+        updatedFillCardsChosen.push(fillCard)
+      }
+    })
 
     fillCards.forEach((fillCard) => {
       if (fillCard.id == id) {
         updatedFillCardsChosen.push(fillCard)
-      } else {
-        updatedFillCards.push(fillCard)
       }
     })
 
     this.setState({
-      fillCards: updatedFillCards,
-      fillCardsChosen: updatedFillCardsChosen
-    })
-  }
-
-  handleFillCardChosenClick = (id) => {
-    const { fillCards, fillCardsChosen } = this.state
-    const updatedFillCards = [...fillCards]
-    const updatedFillCardsChosen = []
-
-    fillCardsChosen.forEach((fillCard) => {
-      if (fillCard.id == id) {
-        updatedFillCards.push(fillCard)
-      } else {
-        updatedFillCardsChosen.push(fillCard)
-      }
-    })
-
-    this.setState({
-      fillCards: updatedFillCards,
+      fillCardsVisible: false,
+      fillCards: [],
       fillCardsChosen: updatedFillCardsChosen
     })
   }
@@ -112,8 +130,51 @@ export default class O_SwatchFormContainer extends PureComponent {
       })
   }
 
+  renderFillCards = (type, cards) => {
+    const { fillCards, fillCardsVisible } = this.state
+    const cardComponents = []
+
+    cards.forEach((fillCard) => {
+      cardComponents.push(
+        <A_FillCard
+          {...fillCard}
+          handleCardClick={this.handleFillCardClick}
+          key={fillCard.id}
+        />
+      )
+    })
+
+    const classes = classnames({
+      W_FillCards: true,
+      [type]: true,
+      fillCardsVisible
+    })
+
+    return (
+      <div className="W_FillCardsContainer">
+        <div className={classes}>
+          {type == 'chosen' && (
+            <A_Button
+              type="addFillButton"
+              text="Добавить заливку"
+              handleClick={this.handleNewFillButtonClick}
+            />
+          )}
+
+          {cardComponents}
+        </div>
+
+        {type == 'chosen' && fillCardsVisible && (
+          <div className="W_FillCardsDefault">
+            {this.renderFillCards('default', fillCards)}
+          </div>
+        )}
+      </div>
+    )
+  }
+
   render() {
-    const { heading, fillCards, fillCardsChosen } = this.state
+    const { heading, fillCardsChosen } = this.state
 
     return (
       <div className="O_SwatchFormContainer">
@@ -123,15 +184,7 @@ export default class O_SwatchFormContainer extends PureComponent {
           handleInput={this.handleHeadingInput}
         />
 
-        <M_FillCards
-          fillCards={fillCardsChosen}
-          handleCardClick={this.handleFillCardChosenClick}
-        />
-
-        <M_FillCards
-          fillCards={fillCards}
-          handleCardClick={this.handleFillCardClick}
-        />
+        {this.renderFillCards('chosen', fillCardsChosen)}
 
         <A_Button text="Создать палитру" handleClick={this.handleFormSubmit} />
       </div>

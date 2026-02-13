@@ -56,12 +56,19 @@ module.exports = {
   plugins: [
     new MiniCssExtractPlugin(),
 
-    // Landing page
     new HtmlWebpackPlugin({
       hash: true,
       scriptLoading: 'blocking',
       template: './src/index.html',
       filename: './index.html',
+      chunks: ['index']
+    }),
+
+    new HtmlWebpackPlugin({
+      hash: true,
+      scriptLoading: 'blocking',
+      template: './src/signin.html',
+      filename: './signin.html',
       chunks: ['index']
     }),
 

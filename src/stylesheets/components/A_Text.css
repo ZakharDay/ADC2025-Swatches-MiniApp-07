@@ -1,0 +1,12 @@
+.A_Text {
+  &.display-heading-1 {
+    font-size: 36px;
+    line-height: 100%;
+    font-weight: bold;
+  }
+
+  &.display-paragraph {
+    font-size: 18px;
+    line-height: 120%;
+  }
+}

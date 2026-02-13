@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8" />
@@ -8,41 +8,57 @@
   </head>
 
   <body class="home index">
-    <nav class="menubar">
+    <!-- <nav class="menubar">
       <span>Главная</span>
       <a href="/swatches/index.html">Палитры</a>
-    </nav>
+    </nav> -->
 
-    <h1>Наше супер приложение</h1>
-    <p>Здесь будет вовлекающий текст для миниаппа</p>
+    <div class="W_FlexGroup">
+      <div class="M_TitleWithDescriptor display">
+        <h1 class="A_Text display-heading-1">Наше супер приложение</h1>
 
-    <form
-      action="http://localhost:3000/api/v1/subscriptions.json"
-      accept-charset="UTF-8"
-      method="post"
-      id="subscription_form"
-    >
-      <div>
-        <label style="display: block" for="subscription_email">Email</label>
-        <input
-          type="email"
-          name="subscription[email]"
-          id="subscription_email"
-        />
+        <p class="A_Text display-paragraph">
+          Здесь будет вовлекающий текст для миниаппа
+        </p>
       </div>
 
-      <div>
-        <input
-          type="submit"
-          name="commit"
-          value="Create Subscription"
-          data-disable-with="Create Subscription"
-        />
-      </div>
-    </form>
+      <form
+        action="http://localhost:3000/api/v1/subscriptions.json"
+        accept-charset="UTF-8"
+        method="post"
+        id="subscription_form"
+        class="O_SubscriptionForm"
+      >
+        <div>
+          <label class="A_Label" for="subscription_email"
+            >Подпишитесь на оповещение о запуске</label
+          >
 
-    <br /><br />
+          <input
+            type="email"
+            placeholder="Введите ваш email"
+            name="subscription[email]"
+            id="subscription_email"
+            class="A_Input"
+          />
+        </div>
 
-    <user_forms></user_forms>
+        <div>
+          <input
+            type="submit"
+            name="commit"
+            value="Create Subscription"
+            data-disable-with="Create Subscription"
+            class="A_Button"
+          />
+        </div>
+      </form>
+    </div>
+
+    <a class="A_Button tertiary" href="signin.html">У меня есть приглашение</a>
+
+    <!-- <br /><br /> -->
+
+    <!-- <user_forms></user_forms> -->
   </body>
 </html>

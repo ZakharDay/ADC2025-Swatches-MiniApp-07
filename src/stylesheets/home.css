@@ -1,9 +1,17 @@
-body {
-  padding: 60px;
-  form {
-    &.hidden {
-      display: none;
-    }
+body.home.index,
+body.home.signin {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+
+  .W_FlexGroup {
+    padding-top: 20vh;
+  }
+
+  .A_Button.tertiary {
+    justify-self: flex-end;
   }
 }
 

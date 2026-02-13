@@ -1,3 +1,4 @@
+import classnames from 'classnames'
 import React, { PureComponent } from 'react'
 import ReactDOM from 'react-dom'
 
@@ -7,14 +8,21 @@ export default class A_Button extends PureComponent {
   }
 
   render() {
+    const { type, text, handleClick } = this.props
+
+    const classes = classnames({
+      A_Button: true,
+      [type]: true
+    })
+
     return (
       <div
-        className="A_Button"
+        className={classes}
         onClick={() => {
-          this.props.handleClick(this.props.text)
+          handleClick(text)
         }}
       >
-        {this.props.text}
+        {text}
       </div>
     )
   }
