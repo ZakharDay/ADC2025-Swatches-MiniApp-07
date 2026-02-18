@@ -8,20 +8,20 @@ export default class A_Input extends PureComponent {
   }
 
   handleInput = () => {
-    const { handleInput } = this.props
+    const { param, handleInput } = this.props
     const value = this.input.current.value
-    handleInput(value)
+    handleInput(param, value)
   }
 
   render() {
-    const { value } = this.props
+    const { type, placeholder, value } = this.props
 
     return (
       <input
         ref={this.input}
         className="A_Input"
-        type="text"
-        placeholder={this.props.placeholder}
+        type={type}
+        placeholder={placeholder}
         value={value}
         onInput={this.handleInput}
       />

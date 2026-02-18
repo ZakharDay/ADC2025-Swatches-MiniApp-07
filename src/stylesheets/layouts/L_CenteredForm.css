@@ -1,0 +1,20 @@
+.L_CenteredForm {
+  height: 100%;
+  padding: 20px;
+
+  & > * {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+
+    .W_FlexGroup {
+      padding-top: 20vh;
+    }
+
+    .A_Button.tertiary {
+      justify-self: flex-end;
+    }
+  }
+}

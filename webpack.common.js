@@ -8,8 +8,7 @@ const path = require('path')
 
 module.exports = {
   entry: {
-    index: './src/index.js',
-    swatch_form: './src/javascript/swatch_form.jsx'
+    index: './src/index.jsx'
   },
   output: {
     filename: '[name].js',
@@ -64,52 +63,11 @@ module.exports = {
       chunks: ['index']
     }),
 
-    new HtmlWebpackPlugin({
-      hash: true,
-      scriptLoading: 'blocking',
-      template: './src/signin.html',
-      filename: './signin.html',
-      chunks: ['index']
-    }),
-
-    new HtmlWebpackPlugin({
-      hash: true,
-      scriptLoading: 'blocking',
-      template: './src/swatches/index.html',
-      filename: './swatches/index.html',
-      chunks: ['index']
-    }),
-
-    new HtmlWebpackPlugin({
-      hash: true,
-      scriptLoading: 'blocking',
-      template: './src/swatches/show.html',
-      filename: './swatches/show.html',
-      chunks: ['index']
-    }),
-
-    new HtmlWebpackPlugin({
-      hash: true,
-      scriptLoading: 'blocking',
-      template: './src/swatches/new.html',
-      filename: './swatches/new.html',
-      chunks: ['index', 'swatch_form']
-    }),
-
     // Partials
     new HtmlWebpackPartialsPlugin([
       {
         path: path.join(__dirname, './src/partials/analytics.html'),
         location: 'analytics',
-        template_filename: '*',
-        priority: 'replace'
-      }
-    ]),
-
-    new HtmlWebpackPartialsPlugin([
-      {
-        path: path.join(__dirname, './src/partials/user_forms.html'),
-        location: 'user_forms',
         template_filename: '*',
         priority: 'replace'
       }

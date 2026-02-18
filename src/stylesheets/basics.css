@@ -3,7 +3,8 @@
 }
 
 html,
-body {
+body,
+.App {
   height: 100%;
 }
 
@@ -11,23 +12,3 @@ body {
   font-family: 'PT Root UI', Helvetica, Arial, sans-serif;
   font-weight: 400;
 }
-
-.menubar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 20px;
-}
-
-/* button,
-input[type='submit'],
-input[type='reset'] {
-  background: none;
-  color: inherit;
-  border: none;
-  padding: 0;
-  font: inherit;
-  cursor: pointer;
-  outline: inherit;
-} */
