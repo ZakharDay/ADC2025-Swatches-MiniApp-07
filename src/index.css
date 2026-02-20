@@ -12,8 +12,16 @@
 @import 'stylesheets/components/A_Text.css';
 
 @import 'stylesheets/components/M_TitleWithDescriptor.css';
-@import 'stylesheets/components/O_Form.css';
 
-@import 'stylesheets/containers/O_SwatchFormContainer.css';
+@import 'stylesheets/components/O_Form.css';
+@import 'stylesheets/components/O_PageHeader.css';
+@import 'stylesheets/components/O_Swatch.css';
+
+/* @import 'stylesheets/containers/O_SwatchFormContainer.css'; */
+
+@import 'stylesheets/templates/T_NewSwatch.css';
 @import 'stylesheets/templates/T_SubscriptionForm.css';
+@import 'stylesheets/templates/T_Swatches.css';
+
 @import 'stylesheets/layouts/L_CenteredForm.css';
+@import 'stylesheets/layouts/L_InternalPage.css';

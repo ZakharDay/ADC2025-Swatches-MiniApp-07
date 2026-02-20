@@ -1,0 +1,11 @@
+.O_PageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+
+  .A_Text {
+  }
+
+  .A_Button {
+  }
+}

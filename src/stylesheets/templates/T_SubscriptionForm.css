@@ -1,2 +1,8 @@
 .T_SubscriptionForm {
+  .W_FlexGroup {
+    & > .A_Text {
+      margin-top: 40px;
+      text-align: center;
+    }
+  }
 }

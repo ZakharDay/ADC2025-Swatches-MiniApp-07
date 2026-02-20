@@ -5,6 +5,12 @@
     font-weight: bold;
   }
 
+  &.display-heading-2 {
+    font-size: 28px;
+    line-height: 100%;
+    font-weight: bold;
+  }
+
   &.display-paragraph {
     font-size: 18px;
     line-height: 120%;

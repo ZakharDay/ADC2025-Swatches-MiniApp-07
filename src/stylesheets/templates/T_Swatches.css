@@ -1,0 +1,7 @@
+.T_Swatches {
+  .A_Text {
+    &.display-heading-1 {
+      padding: 20px;
+    }
+  }
+}

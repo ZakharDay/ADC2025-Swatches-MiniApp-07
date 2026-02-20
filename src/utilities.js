@@ -16,10 +16,12 @@ function getParentClasses(element) {
 function extractFormDataFromPageProps(pageProps) {
   const formData = {}
 
-  pageProps.form.fields.forEach((field) => {
-    const { param } = field
-    formData[param] = ''
-  })
+  if (pageProps.form) {
+    pageProps.form.fields.forEach((field) => {
+      const { param } = field
+      formData[param] = ''
+    })
+  }
 
   return formData
 }

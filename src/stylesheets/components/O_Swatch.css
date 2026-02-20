@@ -1,0 +1,22 @@
+.O_Swatch {
+  margin: 8px 0;
+  border: 1px solid rgb(236, 236, 236);
+  background-color: rgb(243, 243, 243);
+  border-radius: 24px;
+
+  & > .A_Text {
+    padding: 20px 20px 0 20px;
+  }
+
+  .W_Fills {
+    display: flex;
+    gap: 12px;
+    /* margin-top: 20px; */
+    padding: 20px;
+    overflow-x: auto;
+
+    .A_FillCard {
+      min-width: 200px;
+    }
+  }
+}

@@ -10,10 +10,10 @@ const urls = {
   signIn: 'http://localhost:3000/api/v1/sign_in.json',
   signUp: 'http://localhost:3000/api/v1/sign_up.json',
   createSubscription: 'http://localhost:3000/api/v1/subscriptions.json',
-  getFills: 'http://localhost:3000/api/v1/fills.json',
+  getSwatches: 'http://localhost:3000/api/v1/swatches.json',
   createSwatch: 'http://localhost:3000/api/v1/swatches.json',
   showSwatch: 'http://localhost:8080/swatches/show.html',
-  indexSwatches: 'http://localhost:3000/api/v1/swatches.json'
+  getFills: 'http://localhost:3000/api/v1/fills.json'
 }
 
 const pages = {
@@ -85,9 +85,14 @@ const pages = {
     }
   },
   swatches: {
-    name: 'signIn',
-    layout: 'L_CenteredForm',
+    name: 'swatches',
+    layout: 'L_InternalPage',
     template: 'T_Swatches'
+  },
+  newSwatch: {
+    name: 'newSwatch',
+    layout: 'L_InternalPage',
+    template: 'T_NewSwatch'
   }
 }
 
